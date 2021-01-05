@@ -11,7 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, BrowserView } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ElectronIpcKeyEnum } from './interfaces/ElectronIpcKeyEnum';
@@ -80,7 +80,7 @@ const createWindow = async () => {
     titleBarStyle: 'hidden',
   });
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html#/captureImageList`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -153,4 +153,17 @@ app.on('activate', () => {
 /**
  * Add ipc listeners...
  */
-ipcMain.on(ElectronIpcKeyEnum.ADD_CAPTURE_WINDOW, () => {});
+ipcMain.on(ElectronIpcKeyEnum.ADD_CAPTURE_WINDOW, () => {
+  console.info(ElectronIpcKeyEnum.ADD_CAPTURE_WINDOW);
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    frame: false,
+    transparent: true,
+    backgroundColor: '#ffffff',
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  win.show();
+});

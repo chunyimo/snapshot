@@ -20,7 +20,6 @@ const ToolBar: React.FC<IToolBar> = (props) => {
   };
   const handleNewWindowClick = () => {
     ipcRenderer.send(ElectronIpcKeyEnum.ADD_CAPTURE_WINDOW);
-    window.open('https://github.com', '_blank', 'nodeIntegration=no');
   };
   return (
     <div className={classes.toolBarBox}>
